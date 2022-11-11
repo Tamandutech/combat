@@ -2,10 +2,10 @@
 #include "ESC.h"          
 
 #define leftMotorPin 27
-#define rightMotorPin 32
+#define rightMotorPin 33
 #define ledVermelho 13
 #define ledAmarelo 12
-//#define weaponMotorPin 34
+#define weaponMotorPin 32
 
 #define SPEED_MIN (1000)  // Set the Minimum Speed in microseconds
 #define SPEED_MAX (2000)  
@@ -13,7 +13,7 @@
 
 ESC motorEsquerdo (leftMotorPin, SPEED_MIN, SPEED_MAX, 500); 
 ESC motorDireito (rightMotorPin, SPEED_MIN, SPEED_MAX, 500);  
-//ESC motorArma (weaponMotorPin, SPEED_MIN, SPEED_MAX, 500);  
+ESC motorArma (weaponMotorPin, SPEED_MIN, SPEED_MAX, 500);  
 
 int angle;
 int lastState = 0;
@@ -28,6 +28,11 @@ void setup() {
   pinMode(ledVermelho, OUTPUT);
   pinMode(ledAmarelo, OUTPUT);
 
+  motorDireito.stop();
+  motorEsquerdo.stop();
+  motorArma.stop();
+
+
   while(!PS4.isConnected()){
     Serial.println("Esperando Conexão");
     delay(250);
@@ -37,16 +42,15 @@ void setup() {
   PS4.sendToController();
 
   Serial.println ("Conexão Estabelecida");
-
+  
   motorEsquerdo.arm();
   motorDireito.arm();
-  //motorArma.arm();
+  motorArma.arm();
 
 }
 
 void loop() {
-  if(PS4.isConnected() == true){
-    while(PS4.isConnected()){
+  if(PS4.isConnected()){
       digitalWrite(ledVermelho, HIGH);
       digitalWrite(ledAmarelo, HIGH);
       int LStickY= PS4.LStickY();
@@ -106,36 +110,43 @@ void loop() {
         }
       
       }
-
-      else if(PS4.Square()){
-        motorDireito.speed(1600);
-      }
-
-      else if (PS4.Circle()){
-        motorDireito.stop();
-      }
   
       else{
         motorEsquerdo.stop();
         motorDireito.stop();
       }
 
-      
-  
-    }
+      if(PS4.Square()){
+        motorArma.speed(1600);
+      }
+
+      else if (PS4.Triangle()){
+        motorArma.speed(1800);
+      }
+
+       else if (PS4.Circle()){
+        motorArma.speed(2000);
+      }
+
+      else if (PS4.Cross()){
+        motorArma.stop();
+      }
+
   }
     //Fail safe
-  if(PS4.isConnected() == false){
+  else{
     digitalWrite(ledVermelho, LOW);
     motorEsquerdo.speed(1500);
     motorDireito.speed(1500);
+    motorArma.speed(1500);
+    delay(500);
     motorEsquerdo.stop();
     motorDireito.stop();
+    motorArma.stop();
     digitalWrite(ledAmarelo, LOW);
-    //motorArma.stop();
+    delay(500);
     //Serial.println("Restart");
     setup();
-    //delay(20);
   }
   
 
