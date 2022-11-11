@@ -19,6 +19,7 @@ int angle;
 int lastState = 0;
 int velocidade = 0;
 int ve, vd, va;
+int locMaxSpeed = 300;
 
 void setup() {
   //PS4.begin("58:a0:23:33:d9:b0");
@@ -64,16 +65,16 @@ void loop() {
       if(abs(LStickY) > abs(LStickX)){
         //anda frente e tras
         if (LStickY>=30){
-          ve = map(LStickY, 30, 127, SPEED_MED, SPEED_MAX);
-          vd = map(LStickY, 30, 127, SPEED_MED, SPEED_MIN);
+          vd = map(LStickY, 30, 127, SPEED_MED, SPEED_MAX);
+          ve = map(LStickY, 30, 127, SPEED_MED, SPEED_MIN);
   
           motorEsquerdo.speed(ve);
           motorDireito.speed(vd);
         }
   
         else if(LStickY<=-30){
-          ve = map(LStickY, -30, -127, SPEED_MED, SPEED_MIN);
-          vd = map(LStickY, -30, -127, SPEED_MED, SPEED_MAX);
+          vd = map(LStickY, -30, -127, SPEED_MED, SPEED_MIN);
+          ve = map(LStickY, -30, -127, SPEED_MED, SPEED_MAX);
   
           motorEsquerdo.speed(ve);
           motorDireito.speed(vd);
@@ -89,16 +90,16 @@ void loop() {
       else if(abs(LStickY) < abs(LStickX)){
         //vira esquerda e direita
         if (LStickX>=30){
-          ve = map(LStickX, 30, 127, SPEED_MED, SPEED_MAX);
           vd = map(LStickX, 30, 127, SPEED_MED, SPEED_MAX);
+          ve = map(LStickX, 30, 127, SPEED_MED, SPEED_MAX);
   
           motorEsquerdo.speed(ve);
           motorDireito.speed(vd);
         }
   
         else if(LStickX<=-30){
-          ve = map(LStickX, -30, -127, SPEED_MED, SPEED_MIN);
           vd = map(LStickX, -30, -127, SPEED_MED, SPEED_MIN);
+          ve = map(LStickX, -30, -127, SPEED_MED, SPEED_MIN);
   
           motorEsquerdo.speed(ve);
           motorDireito.speed(vd);
@@ -117,15 +118,15 @@ void loop() {
       }
 
       if(PS4.Square()){
-        motorArma.speed(1600);
+        motorArma.speed(1400);
       }
 
       else if (PS4.Triangle()){
-        motorArma.speed(1800);
+        motorArma.speed(1200);
       }
 
        else if (PS4.Circle()){
-        motorArma.speed(2000);
+        motorArma.speed(1000);
       }
 
       else if (PS4.Cross()){
