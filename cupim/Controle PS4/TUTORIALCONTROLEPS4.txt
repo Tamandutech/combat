@@ -1,0 +1,60 @@
+
+Para resetar a memória flash
+
+Tutorial:
+https://randomnerdtutorials.com/esp32-erase-flash-memory/
+
+Resumo:
+
+Instalando o Esptool.py (necessáriopara o funcionamento)
+
+1-Baixe a versão mais atual de Python:
+https://www.python.org/downloads/
+2-Abra o terminal de comandos do PC após a instalação completa de Pytho.
+3-Insira e aperte enter:
+pip install esptool
+4-Caso o comando acma não funcione, tente esses:
+pip3 install esptool
+python -m pip install esptool
+pip2 install esptool
+5-Após a instalação do esptool, instale o setuptools :
+ip install setuptools
+6-Depois da instalação, rode o seguinte comando:
+python -m esptool
+
+Caso ocorra tudo corretamente será exibido a Imagem Esptoolintalação.jpg, encontrada na mesma pasta que esse texto.
+
+
+Apagando a memoria flash:
+
+1-Conecte o ESP32 no PC.
+2-Abra o terminal de comandos do PC.
+3-Segure o botão Boot do esp32.
+4- Rode o seguinte comando no terminal de comandos( peraneça segurando o botão Boot):
+python -m esptool --chip esp32 erase_flash
+5-Quando o processo de “ Erasing ” começar, você pode soltar o botão “ BOOT/FLASH ”. Após alguns segundos, a memória flash do ESP32 será apagada.~
+
+Nota: se após a mensagem “ Connecting … ” você continuar vendo novos pontos aparecendo, significa que seu ESP32 não está no modo flashing. 
+Você precisa repetir todos os passos descritos anteriormente e segurar o botão “ BOOT/FLASH ” novamente para garantir que seu ESP32 entre no modo flashing
+e conclua o processo de apagamento com sucesso
+
+A Imagem Limpezadamemóriaflashconcluída está na mesma pasta que esse texto para ilustração.
+
+ALTERANDO O ENDEREÇO MAC NO CONTROLE E NA PROGRMAÇÃO:
+
+1- Cópie o endereço MAC exibido no prop de comando após a conclusão da limpeza da memória flash, Circulado na imagem ENDEREÇOMAC.
+2-Abra o aplicaivo SIXAXISPAIRTOOL (Localizado na pasta).
+3- Conecte o controle em uma porta diferente da do ESP3.
+4- Abra o IDE do arduino.
+5-Abra a programação do Robô.
+6- localize as seguintes linhas:
+PS4.begin("0c:b8:15:f5:fe:2c"); //endereço mac
+7- Salve a programação e carregue no esp32.
+8-Cole entre as "" o endereço mac do esp32
+9- No sixaxispairtool, coloque o enderço mac do esp32 no campo CHANGE MASTER e clique em Update.
+10-Teste se o controle está conectando.
+
+ATENÇÃO:
+
+TODA VEZ QUE O CONTROLE FOR CONECTADO EM OUTRA PLACA E VICE-VERSA, É NECESSÁRIO REPETIR A LIMPEZA DA FLASH E A CONFIGURAÇÃO DO CONTROLE!!!!!!!
+
